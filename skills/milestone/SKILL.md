@@ -41,7 +41,7 @@ Then branch on the arguments.
 
 ## 4. Default permissions (on top of WORKING.md)
 
-- **Do without asking:** commit and push on the project's feature branch (and branches under it) once the done criteria pass. Commit and push changes inside the docs folder to its repo. At `end`, remove the milestone's merged worktrees and local worker branches (`references/end.md` step 5). Whatever the registry's Extra permissions column lists.
+- **Do without asking:** commit and push on the project's feature branch (and branches under it) once the done criteria pass. Commit and push changes inside the docs folder to its repo. At `end`, remove the milestone's merged worktrees and their local branches (`references/end.md` step 5). Whatever the registry's Extra permissions column lists.
 - **Ask first:** merging into a default branch (dev, main), opening PRs, production deploys, creating GitHub repos, changing external service settings, and any dev deploy or package publish not listed under Extra permissions.
 - When a product decision is needed (anything customers or operators see or go through, money, legal), write it in `BLOCKED.md` and keep working on something else. Stop and ask only when everything left is blocked.
 - Never print secrets (keychain, `.env`, API keys, tokens). Production databases are read-only.
