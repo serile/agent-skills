@@ -46,7 +46,7 @@ The skill is written in English. Project docs and briefs are written in the lang
 
 ### Default permissions
 
-Without asking, the agent commits and pushes on the project's feature branch once the done criteria pass, and commits the project docs. It asks before merging into default branches, opening PRs, deploying to production, creating repos or changing external services. See section 4 of [SKILL.md](skills/milestone/SKILL.md).
+Without asking, the agent commits and pushes on the project's feature branch once the done criteria pass, and commits the project docs. When you close a milestone with `end`, it removes that milestone's merged worktrees and local worker branches; remote branches stay. It asks before merging into default branches, opening PRs, deploying to production, creating repos or changing external services. See section 4 of [SKILL.md](skills/milestone/SKILL.md).
 
 ## License
 
