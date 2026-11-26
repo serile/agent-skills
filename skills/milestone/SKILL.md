@@ -38,6 +38,7 @@ Then branch on the arguments.
 
 - **Worker** (a session that received a brief, or whose prompt carries an Orca Task and Dispatch ID): do not spawn workers. Follow the worker duties in the `orchestration` skill (questions, final report), and only read the project docs. Put anything that should change in your report.
 - **Coordinator** (any other session): the only session that edits the project docs. It does not implement; it runs workers with the `orchestration` skill. Before assigning workers, run that skill to read the guide for the installed Orca version, and follow its flow (register tasks, assign workers, questions and answers, final reports). Do not substitute your own subagents (the Agent tool).
+- **Giving a worker more work.** Before you `send` a worker anything new (a fix, a follow-up, a next step), measure its context with `python3 <this skill folder>/scripts/context-usage.py --dispatch <dispatch_id>`. It assumes a 1M-token window; pass `--window` for a model with another window. Send to that worker only when the new work builds on what it just did and the result is under 50%. At 50% or more, or when the script reports unknown (a Codex worker, a missing transcript), start a fresh worker in the same worktree once the old one has settled. Hand it the brief, the previous worker's report and the new instructions as files, and tell it to continue on the existing branch instead of creating it.
 
 ## 4. Default permissions (on top of WORKING.md)
 

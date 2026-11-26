@@ -17,6 +17,7 @@ For work too big for one session: a new project, a feature that spans repos, or 
   orca skills install --skill orca-cli --skill orchestration
   ```
 - Optional: [Codex](https://github.com/openai/codex), used as the verification worker. Without it, a fresh worker verifies instead.
+- Recommended for Claude Code workers: add `"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"` to `env` in `~/.claude/settings.json`. Long-running workers then compact at about half their context instead of near the end. It applies to every Claude Code session on the machine, the coordinator included. Before the coordinator gives a finished worker more work, it measures that worker's context with `scripts/context-usage.py` and starts a fresh worker when it is half full.
 
 ### Install
 
