@@ -72,7 +72,8 @@ Two entries in `$CLAUDE_CONFIG_DIR/settings.json`, else `~/.claude/settings.json
 
 From `orca repo list --json`, report two kinds of registered repos. Do not change them; give the user commands or steps instead.
 
-- **Worktree base is a local branch** (`worktreeBaseRef` such as `dev` rather than `origin/dev`): Orca then creates worktrees from stale, unpulled commits without fetching. Give `orca repo set-base-ref --repo path:<absolute repo path> --ref origin/<branch>`.
+- **Worktree base is a local branch** (`worktreeBaseRef` is a bare name such as `dev` or starts with `refs/heads/`): Orca then creates worktrees from stale, unpulled commits without fetching. `origin/<branch>` and `refs/remotes/origin/<branch>` are both remote and fine. Give `orca repo set-base-ref --repo path:<absolute repo path> --ref origin/<branch>`.
+- **Worktree base not set** (`worktreeBaseRef` is empty): give the same command, with the branch the repo's work starts from.
 - **Setup script in the Orca app settings** (`hookSettings.scripts.setup` is not empty) while the repo has an `orca.yaml`: the app setting makes Orca ignore `orca.yaml`. Tell the user to clear that repo's setup field in Orca's settings screen.
 
 ## 6. Report
