@@ -47,13 +47,16 @@ Update with `npx skills update`. Do not edit the installed copy; updates overwri
 /milestone init <project> [design doc path …]   create the project docs and milestones, then wait for approval
 /milestone start <project> <n>                   start milestone n
 /milestone end <project> <n>                     close milestone n after you have checked the results
-/milestone <project>                             resume
+/milestone resume <project>                      take over a milestone after the coordinator session broke off or was cleared
+/milestone <project>                             read the project docs (worker briefs start with this)
 ```
+
+While a milestone runs, the coordinator keeps a one-page state board, `STATE.md`, in the milestone's output folder: the Orca Run ID, where the milestone is, which brief each worker runs and what it is waiting for, and the next step. It is overwritten, never appended, and deleted at `end`. `resume` rebinds the Run, rereads worker status and mail from Orca, and carries on from there.
 
 ### What stays on your machine
 
 - `~/.agents/milestone/projects.md` — your project registry. Created on first run; `init` adds a row per project, including Extra permissions: what the agent may do without asking in that project.
-- Output folder — worker reports, verification results and baselines. `~/.gstack/projects/<workspace>/` if you use gstack, otherwise `~/.agents/milestone/artifacts/<workspace>/`.
+- Output folder — worker reports, verification results, baselines and each running milestone's `STATE.md`. `~/.gstack/projects/<workspace>/` if you use gstack, otherwise `~/.agents/milestone/artifacts/<workspace>/`.
 
 ### Language
 

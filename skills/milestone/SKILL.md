@@ -1,6 +1,6 @@
 ---
 name: milestone
-description: Run multi-session, multi-repo work (a new project, a feature in an existing service, or a refactor) from one set of project docs split into milestones, with Orca workers doing the implementation. Arguments — `init <project> [design doc paths]` creates the project docs, `start <project> <n>` starts a milestone, `end <project> <n>` closes one, and `<project>` alone resumes. Also run it when the first line of a worker brief says to.
+description: Run multi-session, multi-repo work (a new project, a feature in an existing service, or a refactor) from one set of project docs split into milestones, with Orca workers doing the implementation. Arguments — `init <project> [design doc paths]` creates the project docs, `start <project> <n>` starts a milestone, `end <project> <n>` closes one, `resume <project>` takes over a milestone after its coordinator session broke off or was cleared, and `<project>` alone reads the project docs. Also run it when the first line of a worker brief says to.
 ---
 
 # Milestones
@@ -12,6 +12,8 @@ This skill is written in English, but the documents it creates follow the user. 
 ## 1. Find the project
 
 Read the project registry, `~/.agents/milestone/projects.md`. It belongs to each person, so it never lives in this skill folder. If it does not exist, copy this skill's `templates/projects.md` there. Each row holds one project's docs folder, feature branch, output folder, external docs and extra permissions.
+
+The first argument is a verb when it is `init`, `start`, `end` or `resume`; otherwise it is the project name.
 
 - `init <project> [design doc path …]`: read `references/init.md` and follow it. Skip section 2.
 - Otherwise, if `<project>` is not in the registry, stop and ask. With no argument, list the registered projects and ask.
@@ -30,9 +32,10 @@ To finish this session: <concrete>
 
 Then branch on the arguments.
 
-- `<project>` alone: carry on.
+- `<project>` alone: carry on with what you were given; a worker follows its brief. If you are a coordinator and the current milestone's output folder (`<project>-m<n>-*` under the registry's output folder) has a `STATE.md`, the milestone is mid-flight: say that `/milestone resume <project>` takes over its coordination, and wait.
 - `start <project> <n>` (`2` or `M2`): read `references/start.md` and follow it.
 - `end <project> <n>`: read `references/end.md` and follow it.
+- `resume <project>`: read `references/resume.md` and follow it.
 
 ## 3. Session roles
 
