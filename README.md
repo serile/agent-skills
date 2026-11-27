@@ -12,26 +12,8 @@ For work too big for one session: a new project, a feature that spans repos, or 
 
 ### Requirements
 
-- [Orca](https://orca.dev) with its `orca-cli` and `orchestration` skills:
-  ```bash
-  orca skills install --skill orca-cli --skill orchestration
-  ```
+- [Orca](https://orca.dev).
 - Optional: [Codex](https://github.com/openai/codex), used as the verification worker. Without it, a fresh worker verifies instead.
-- Recommended for Claude Code workers: add `"CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"` to `env` in `~/.claude/settings.json`. Long-running workers then compact at about half their context instead of near the end. It applies to every Claude Code session on the machine, the coordinator included. Before the coordinator gives a finished worker more work, it measures that worker's context with `scripts/context-usage.py` and starts a fresh worker when it is half full.
-- Optional for a Claude Code coordinator: the `scripts/orca-send-guard.py` hook blocks `orca orchestration send` to a worker whose context is 50% or more full, so that rule holds even when the agent forgets it. Add this entry to `hooks.PreToolUse` in `~/.claude/settings.json`, next to the hooks already there:
-  ```json
-  {
-    "matcher": "Bash",
-    "hooks": [
-      {
-        "type": "command",
-        "command": "python3 \"$HOME/.agents/skills/milestone/scripts/orca-send-guard.py\"",
-        "timeout": 30
-      }
-    ]
-  }
-  ```
-  `CONTEXT_GUARD_PERCENT` changes the 50% limit. A worker it cannot measure (a Codex worker, an Orca error) is let through.
 
 ### Install
 
@@ -39,11 +21,19 @@ For work too big for one session: a new project, a feature that spans repos, or 
 npx skills add serile/agent-skills --skill milestone -g
 ```
 
-Update with `npx skills update`. Do not edit the installed copy; updates overwrite it.
+Then run `/milestone setup` once per machine. It checks each item and asks before changing anything:
+
+- Installs Orca's `orca-cli` and `orchestration` skills, which the coordinator uses to run workers.
+- For Claude Code, adds two settings that keep workers from filling their context: `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50`, so sessions compact at about half their context, and the `scripts/orca-send-guard.py` hook, which blocks `orca orchestration send` to a worker whose context is 50% or more full. `CONTEXT_GUARD_PERCENT` changes that limit; a worker it cannot measure (a Codex worker, an Orca error) is let through.
+- Optionally writes the Orca task delegation guideline — when agents hand everyday, non-milestone work to Orca worktrees, and how they clean up after a merge — into your global `CLAUDE.md` or `AGENTS.md`, or into one project's `CLAUDE.local.md`.
+- Reports Orca repos whose worktree base is a local branch, or whose setup script in the Orca app hides the repo's `orca.yaml`.
+
+Update with `npx skills update milestone -g`, then rerun `/milestone setup` to bring the guideline up to date. Do not edit the installed copy; updates overwrite it.
 
 ### Usage
 
 ```text
+/milestone setup                                 set up this machine: Orca skills, worker context settings, delegation guideline
 /milestone init <project> [design doc path …]   create the project docs and milestones, then wait for approval
 /milestone start <project> <n>                   start milestone n
 /milestone end <project> <n>                     close milestone n after you have checked the results
@@ -56,6 +46,7 @@ While a milestone runs, the coordinator keeps a one-page state board, `STATE.md`
 ### What stays on your machine
 
 - `~/.agents/milestone/projects.md` — your project registry. Created on first run; `init` adds a row per project, including Extra permissions: what the agent may do without asking in that project.
+- What `setup` added, in the files you chose: the delegation guideline block (between `milestone-orca` markers) and the Claude Code settings.
 - Output folder — worker reports, verification results, baselines and each running milestone's `STATE.md`. `~/.gstack/projects/<workspace>/` if you use gstack, otherwise `~/.agents/milestone/artifacts/<workspace>/`.
 
 ### Language

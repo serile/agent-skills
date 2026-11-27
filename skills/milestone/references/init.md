@@ -1,6 +1,6 @@
 # Create the project docs (`init <project> [design doc path …]`)
 
-`<project>` is a short lowercase English name (`coupon`, `core-ui-refactor`). It names the docs folder, branches and output folder. It cannot be `init`, `start`, `end` or `resume`, the skill's verbs. If it is already in the registry (`~/.agents/milestone/projects.md`), or the design doc already starts with a "The current source of truth is …" line (a design doc that has moved to other project docs), stop and ask.
+`<project>` is a short lowercase English name (`coupon`, `core-ui-refactor`). It names the docs folder, branches and output folder. It cannot be `setup`, `init`, `start`, `end` or `resume`, the skill's verbs. If it is already in the registry (`~/.agents/milestone/projects.md`), or the design doc already starts with a "The current source of truth is …" line (a design doc that has moved to other project docs), stop and ask.
 
 ## 1. Is this the right tool
 
@@ -50,6 +50,7 @@ Copy this skill's `templates/` into the docs folder.
 | `DECISIONS.md`, `BLOCKED.md`, `WORKING.md` | Same name |
 | `history.md` | Not created — `start` creates `history/m<n>.md` per milestone |
 | `STATE.md` | Not created — `start` creates it in each milestone's output folder |
+| `orca-delegation.md` | Not created — `setup` writes it into the user's own instruction file |
 | `brief.md`, `brief-verify.md` | `briefs/_template.md`, `briefs/_verify-template.md` |
 | `projects.md` | Not created — it is the registry template (SKILL.md section 1) |
 

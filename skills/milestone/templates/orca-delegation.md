@@ -1,0 +1,15 @@
+<!-- milestone-orca:start — managed by `/milestone setup` (source: the milestone skill's templates/orca-delegation.md); rerun it to update -->
+## Orca Task Delegation
+
+Applies only in sessions launched by Orca: before starting, check that `TERM_PROGRAM` is `Orca` (or that `ORCA_WORKTREE_ID` is set). Outside Orca, ignore this section and follow the project's usual rules. Work driven by the `milestone` skill follows that skill's flow; this section covers everything else. How to create worktrees and hand work off is in the `orca-cli` and `orchestration` skills. A project's own rules (`CLAUDE.md`, `AGENTS.md`) add to this section and win where they differ.
+
+- **Work that goes through a design:** end the design with one line naming the execution mode, in the user's language — `Execution: Orca worktree delegation — <repo> (first) → <repo>` or `Execution: directly in the original checkout`. **Approving the design approves the execution mode**; do not ask separately.
+- **Small work without a design** (about one file): say in your first line that you will work directly in the original checkout, then start.
+- **Ask only when it is unclear** (for example, one repo but a large change).
+- **When delegating:** name branches by that repo's rules. Create the worktree with `orca worktree create --branch <branch>` so Orca does not also make a `<prefix>/<worktree name>` branch. Put the design in a file and give its absolute path in the brief. Repos not registered in Orca get no worktree: work in the original checkout or ask the user to register the repo.
+- **Giving a worker more work:** Orca does not report a worker's context usage, so before you `orca orchestration send` a worker a fix or a follow-up, measure it with `python3 <milestone skill folder>/scripts/context-usage.py --dispatch <dispatch_id>`. Send to that worker only when the new work builds on what it just did and it is under 50%. At 50% or more, or when the script reports unknown (a Codex worker, a missing transcript), start a fresh worker in the same worktree once the old one has settled. Hand it the brief, the old worker's report and the new instructions as files.
+- **Merge and push** follow that repo's rules and need confirmation.
+- **Cleanup after merge:** when a worktree's branch is merged, tell the user, then remove the worktree with `orca worktree rm`. Do not pass `--delete-branch`: on a worktree that has a default or feature branch checked out, Orca may delete that branch as merged. Then delete the worktree's local branches in that repo: the branch it worked on and, if the worker switched away from it, the `<prefix>/<worktree name>` branch Orca created with the worktree. Neither `orca worktree rm` nor Orca's cleanup rules delete these.
+  - Try `git branch -d` first. If it refuses, delete with `-D` only when `git rev-list --count <branch> --not --remotes=origin` is 0 after `git fetch --prune` (`-d` refuses a branch with no upstream unless the checked-out branch contains it). Otherwise keep it and say so.
+  - Never delete default branches or remote branches.
+<!-- milestone-orca:end -->

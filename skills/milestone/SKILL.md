@@ -1,6 +1,6 @@
 ---
 name: milestone
-description: Run multi-session, multi-repo work (a new project, a feature in an existing service, or a refactor) from one set of project docs split into milestones, with Orca workers doing the implementation. Arguments — `init <project> [design doc paths]` creates the project docs, `start <project> <n>` starts a milestone, `end <project> <n>` closes one, `resume <project>` takes over a milestone after its coordinator session broke off or was cleared, and `<project>` alone reads the project docs. Also run it when the first line of a worker brief says to.
+description: Run multi-session, multi-repo work (a new project, a feature in an existing service, or a refactor) from one set of project docs split into milestones, with Orca workers doing the implementation. Arguments — `setup` prepares this machine (Orca skills, worker context settings, an optional Orca delegation guideline in the user's CLAUDE.md or AGENTS.md), `init <project> [design doc paths]` creates the project docs, `start <project> <n>` starts a milestone, `end <project> <n>` closes one, `resume <project>` takes over a milestone after its coordinator session broke off or was cleared, and `<project>` alone reads the project docs. Also run it when the first line of a worker brief says to.
 ---
 
 # Milestones
@@ -13,8 +13,9 @@ This skill is written in English, but the documents it creates follow the user. 
 
 Read the project registry, `~/.agents/milestone/projects.md`. It belongs to each person, so it never lives in this skill folder. If it does not exist, copy this skill's `templates/projects.md` there. Each row holds one project's docs folder, feature branch, output folder, external docs and extra permissions.
 
-The first argument is a verb when it is `init`, `start`, `end` or `resume`; otherwise it is the project name.
+The first argument is a verb when it is `setup`, `init`, `start`, `end` or `resume`; otherwise it is the project name.
 
+- `setup`: read `references/setup.md` and follow it. Skip sections 2 and 3.
 - `init <project> [design doc path …]`: read `references/init.md` and follow it. Skip section 2.
 - Otherwise, if `<project>` is not in the registry, stop and ask. With no argument, list the registered projects and ask.
 
